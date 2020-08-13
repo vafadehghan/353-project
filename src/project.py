@@ -457,6 +457,32 @@ def fourier_placement_analysis():
 
     return posthoc
 
+def normaltest():
+    for i in range(1 , 13):
+        df = read_csv('../data/pocket/pocket_' + str(i))
+        fft , freq = fourier_transformation(df)
+        fft_normal = stats.normaltest(fft['aT'])
+        if (fft_normal.pvalue <= 0.05):
+            print('pocket_' + str(i) , "is not normal as pvalue = "  , fft_normal.pvalue)
+        else:
+            print('pocket_' + str(i) , "is normal as pvalue = " , fft_normal.pvalue)
+            
+        df = read_csv('../data/hand/hand_' + str(i))
+        fft , freq = fourier_transformation(df)
+        fft_normal = stats.normaltest(fft['aT'])
+        if (fft_normal.pvalue <= 0.05):
+            print('hand_' + str(i) , "is not normal as pvalue = " , fft_normal.pvalue)
+        else:
+            print('hand_' + str(i) , "is normal as pvalue = " , fft_normal.pvalue)
+            
+        df = read_csv('../data/ankle/ankle_' + str(i))
+        fft , freq = fourier_transformation(df)
+        fft_normal = stats.normaltest(fft['aT'])
+        if (fft_normal.pvalue <= 0.05):
+            print('walk_hold' + str(i) , "is not normal as pvalue = " , fft_normal.pvalue)
+        else:
+            print('walk_hold' + str(i) , "is normal as pvalue = " , fft_normal.pvalue)
+
 def main():
     
     data_placement = summarize("placement")
@@ -480,7 +506,10 @@ def main():
     MLClassifier(X, y, 50)
     print("-------------------------------------------")
 
-
+    print("\nNormal Test Results: ")
+    normaltest()
+    print("-------------------------------------------")
+    print("\nAccording to The Central Limit Theorem, we could assume the data is normal given we have a big enough data set, in which case is 4000 points per file.\n")
     posthoc = fourier_placement_analysis()
     print(posthoc)
     posthoc.plot_simultaneous()
