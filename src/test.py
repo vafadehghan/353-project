@@ -73,8 +73,6 @@ def calc_summary(data):
     ay_summary = data['ay'].describe()
     az_summary = data['az'].describe()
     aT_summary = data['aT'].describe()
-    velocity_summary = data['velocity'].describe()
-    position_summary = data['position'].describe()
     for i in range(1 , 8):
         stats.append(ax_summary[i])  
     for i in range(1 , 8):
@@ -83,14 +81,10 @@ def calc_summary(data):
         stats.append(az_summary[i]) 
     for i in range(1 , 8):
         stats.append(aT_summary[i]) 
-    for i in range(1 , 8):
-        stats.append(velocity_summary[i]) 
-    for i in range(1 , 8):
-        stats.append(position_summary[i]) 
     return stats
 
 def BW_stats(data):
-    filtered = data.apply(BW_filter)
+    filtered = filtered = data.apply(BW_filter)
     stats = calc_summary(filtered)
     return stats
 
@@ -100,11 +94,6 @@ def summarize(flag):
         
         for i in range(1 , 13):
             df = read_csv('../data/pocket/pocket_' + str(i))
-            df['time_shift'] = df['time'].shift(1)
-            df['velocity'] = (df['time'] - df['time_shift']) * df['aT']
-            df['position'] = df['velocity'] * (df['time'] - df['time_shift'])
-            df = df.dropna()
-
             summary = []
             if i <= 6:     
                 summary.append('Song-Pocket')
@@ -116,11 +105,6 @@ def summarize(flag):
             
         for i in range(1 , 13):
             df = read_csv('../data/hand/hand_' + str(i))
-            df['time_shift'] = df['time'].shift(1)
-            df['velocity'] = (df['time'] - df['time_shift']) * df['aT']
-            df['position'] = df['velocity'] * (df['time'] - df['time_shift'])
-            df = df.dropna()
-
             summary = []
             if i <= 6:     
                 summary.append('Song-Hand')
@@ -132,11 +116,6 @@ def summarize(flag):
             
         for i in range(1 , 13):
             df = read_csv('../data/ankle/ankle_' + str(i))
-            df['time_shift'] = df['time'].shift(1)
-            df['velocity'] = (df['time'] - df['time_shift']) *df['aT']
-            df['position'] = df['velocity'] * (df['time'] - df['time_shift'])
-            df = df.dropna()
-
             summary = []
             if i <= 6:     
                 summary.append('Song-Ankle')
@@ -151,8 +130,6 @@ def summarize(flag):
         'mean(ay)' , 'std(ay)' , 'min(ay)' , '25th(ay)' , '50th(ay)' , '75th(ay)' , 'max(ay)',
         'mean(az)' , 'std(az)' , 'min(az)' , '25th(az)' , '50th(az)' , '75th(az)' , 'max(az)',
         'mean(aT)' , 'std(aT)' , 'min(aT)' , '25th(aT)' , '50th(aT)' , '75th(aT)' , 'max(aT)',
-        'mean(velocity)' , 'std(velocity)' , 'min(velocity)' , '25th(velocity)' , '50th(velocity)' , '75th(velocity)' , 'max(velocity)',
-        'mean(position)' , 'std(position)' , 'min(position)' , '25th(position)' , '50th(position)' , '75th(position)' , 'max(position)',
         'mean(freq)'])
         
         return df
@@ -160,12 +137,7 @@ def summarize(flag):
     summaries_placement = []    
     for i in range(1 , 13):
         df = read_csv('../data/pocket/pocket_' + str(i))
-        df['time_shift'] = df['time'].shift(1)
-        df['velocity'] = (df['time'] - df['time_shift']) * df['aT']
-        df['position'] = df['velocity'] * (df['time'] - df['time_shift'])     
-        df = df.dropna()
-
-
+        print(df)
         summary = []
         summary.append('pocket')
         summary += BW_stats(df)
@@ -174,11 +146,6 @@ def summarize(flag):
 
     for i in range(1 , 13):
         df = read_csv('../data/hand/hand_' + str(i))
-        df['time_shift'] = df['time'].shift(1)
-        df['velocity'] = (df['time'] - df['time_shift']) * df['aT']
-        df['position'] = df['velocity'] * (df['time'] - df['time_shift'])  
-        df = df.dropna()
-
         summary = []
         summary.append('hand')
         summary += BW_stats(df)
@@ -187,11 +154,6 @@ def summarize(flag):
 
     for i in range(1 , 13):
         df = read_csv('../data/ankle/ankle_' + str(i))
-        df['time_shift'] = df['time'].shift(1)
-        df['velocity'] = (df['time'] - df['time_shift']) * df['aT']
-        df['position'] = df['velocity'] * (df['time'] - df['time_shift'])  
-        df = df.dropna()
-
         summary = []
         summary.append('ankle')
         summary += BW_stats(df)
@@ -205,8 +167,6 @@ def summarize(flag):
     'mean(ay)' , 'std(ay)' , 'min(ay)' , '25th(ay)' , '50th(ay)' , '75th(ay)' , 'max(ay)',
     'mean(az)' , 'std(az)' , 'min(az)' , '25th(az)' , '50th(az)' , '75th(az)' , 'max(az)',
     'mean(aT)' , 'std(aT)' , 'min(aT)' , '25th(aT)' , '50th(aT)' , '75th(aT)' , 'max(aT)',
-    'mean(velocity)' , 'std(velocity)' , 'min(velocity)' , '25th(velocity)' , '50th(velocity)' , '75th(velocity)' , 'max(velocity)',
-    'mean(position)' , 'std(position)' , 'min(position)' , '25th(position)' , '50th(position)' , '75th(position)' , 'max(position)',
     'mean(freq)'])
     return df2
 
