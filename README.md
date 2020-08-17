@@ -1,3 +1,8 @@
+This is an analysis of walking data done using pandas, and scikit-learn.
+2 contributers collected walking data by strapping a phone to their ankles, holding it in their hands, and putting in their pockets.
+Our goal is to use different Machine Learning techniques to be able to classify the person, as well as the position of the phone
+
+
 This program requires a few dependencies:
 ```
 numpy
